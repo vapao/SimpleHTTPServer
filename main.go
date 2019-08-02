@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
-	"os/exec"
-	"path"
+	"path/filepath"
 )
 
 func main() {
@@ -15,8 +13,8 @@ func main() {
 	port := flag.String("p", "8080", "the listen port")
 	flag.Parse()
 
-	file, _ := exec.LookPath(os.Args[0])
-	WorkDir := path.Dir(file)
+	WorkDir, _ := filepath.Abs(".")
+	log.Println(WorkDir)
 
 	log.Printf("String server listening: %s:%s\n", *ip, *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf("%s:%s", *ip, *port), http.FileServer(http.Dir(WorkDir))))
